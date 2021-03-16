@@ -1,1 +1,64 @@
 <p>signin works!</p>
+<!--
+<h1>Below is the query params</h1>
+<ul>
+  <li>
+    <label>Name</label>: {{name}}
+  </li>
+  <li>
+    <label>Location</label>: {{location}}
+  </li>
+</ul>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" routerLink="signin-a">Signin A</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="signin-b">Signin B</a>
+  </li>
+</ul>
+<router-outlet></router-outlet> -->
+<div class="container">
+  <h1>Signin Form</h1>
+  <form #signInForm="ngForm">
+    <div class="form-group">
+      <label for="email">Email address:</label>
+      <input type="text" class="form-control" placeholder="Enter email" id="email"
+        [(ngModel)]="signInData.email"
+        name="email"
+        #email="ngModel"
+        required
+        appValidEmail
+      />
+      {{email.errors | json}}
+      <br/> valid : {{email.valid}}
+      <br/> invalid : {{email.invalid}}
+      <br/> pristine : {{email.pristine}}
+      <br/> dirty : {{email.dirty}}
+      <br/> touched : {{email.touched}}
+      <br/> untouched : {{email.untouched}}
+      <div *ngIf="email.invalid">
+        Email is invalid <br/>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" placeholder="Enter password"
+       id="password"
+       [(ngModel)]="signInData.password"
+       name="password"
+       #password="ngModel"
+       required
+       >
+
+
+       <div *ngIf="password.invalid">
+        Password is required
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    Validations: {{signInForm.form.valid}}
+  </form>
+</div>
