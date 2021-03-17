@@ -1,1 +1,50 @@
-<p>signup works!</p>
+<div class="container">
+  <h1>SignUp Form</h1>
+  <form [formGroup]="signUpForm" >
+    <div class="row">
+      <label>
+        First Name:
+        <input type="text" formControlName="firstName"/>
+      </label>
+      <br/>
+      {{signUpForm.controls.firstName.errors | json}}
+      <div *ngIf="signUpForm.controls.firstName.touched && signUpForm.controls.firstName.errors" class="error">
+        <span *ngIf="signUpForm.controls.firstName.errors.required">
+          First name is required
+        </span>
+        <span *ngIf="signUpForm.controls.firstName.errors.minlength">
+          Minimum two characters is required
+        </span>
+        <span *ngIf="signUpForm.controls.firstName.errors.invalidName">
+          Name cannot be admin
+        </span>
+        <span *ngIf="signUpForm.controls.firstName.errors.maxlength">
+          First name should not exceed maximum of 25 characters
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>
+        Last Name:
+        <input type="text" formControlName="lastName"/>
+      </label>
+    </div>
+    <div class="row">
+      <label>
+        Email:
+        <input type="text" formControlName="email"/>
+      </label>
+    </div>
+    <div class="row">
+      <label>
+        Password:
+        <input type="text" formControlName="password"/>
+      </label>
+    </div>
+    <button (click)="submitSignUpform()">Submit</button>
+    <br/>
+    status: {{signUpForm.status}} <br/>
+    valid: {{signUpForm.valid}}
+  </form>
+</div>

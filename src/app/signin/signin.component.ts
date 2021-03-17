@@ -19,4 +19,10 @@ export class SigninComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  submitSignInForm(form: NgForm) {
+    console.log(form);
+    console.log(this.signInData);
+    // call api
+    form.reset();
+  }
 }

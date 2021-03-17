@@ -14,6 +14,13 @@ export class PasswordValidationDirective implements Validator{
   constructor() { }
 
   validate(c: FormControl) {
-    return null
+    let passwordValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(c.value);
+    if(passwordValid) {
+      return null;
+    } else {
+      return {
+        passwordInvalid: true
+      }
+    }
   }
 }
