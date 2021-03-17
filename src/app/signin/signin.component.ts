@@ -8,6 +8,7 @@ import { SignInData } from '../model/signin.model';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
+  showPassword: boolean = false;
   signInData: SignInData = {
     email: '',
     password: ''

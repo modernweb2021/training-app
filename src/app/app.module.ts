@@ -11,9 +11,8 @@ import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PrivateComponent } from './private/private.component';
-import { SigninAComponent } from './signin-a/signin-a.component';
-import { SigninBComponent } from './signin-b/signin-b.component';
 import { ValidEmailDirective } from './valid-email.directive';
+import { PasswordValidationDirective } from './password-validation.directive';
 
 @NgModule({
   declarations: [
@@ -25,9 +24,8 @@ import { ValidEmailDirective } from './valid-email.directive';
     SignupComponent,
     NotFoundComponent,
     PrivateComponent,
-    SigninAComponent,
-    SigninBComponent,
     ValidEmailDirective,
+    PasswordValidationDirective,
   ],
   imports: [
     BrowserModule,

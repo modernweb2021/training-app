@@ -2,7 +2,7 @@ import { Directive } from '@angular/core';
 import { Validator, FormControl, NG_VALIDATORS } from '@angular/forms';
 
 @Directive({
-  selector: '[appValidEmail]',
+  selector: '[validEmail]',
   providers: [
     {
       provide: NG_VALIDATORS,
@@ -20,7 +20,7 @@ export class ValidEmailDirective implements Validator{
       return null;
     } else {
       return {
-        emailValid: false
+        emailValidationFailed: true
       };
     }
   }

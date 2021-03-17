@@ -1,24 +1,3 @@
-<p>signin works!</p>
-<!--
-<h1>Below is the query params</h1>
-<ul>
-  <li>
-    <label>Name</label>: {{name}}
-  </li>
-  <li>
-    <label>Location</label>: {{location}}
-  </li>
-</ul>
-
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link" routerLink="signin-a">Signin A</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="signin-b">Signin B</a>
-  </li>
-</ul>
-<router-outlet></router-outlet> -->
 <div class="container">
   <h1>Signin Form</h1>
   <form #signInForm="ngForm">
@@ -29,33 +8,44 @@
         name="email"
         #email="ngModel"
         required
-        appValidEmail
+        validEmail
       />
-      {{email.errors | json}}
+      <!-- {{email.errors | json}}
       <br/> valid : {{email.valid}}
       <br/> invalid : {{email.invalid}}
       <br/> pristine : {{email.pristine}}
       <br/> dirty : {{email.dirty}}
       <br/> touched : {{email.touched}}
-      <br/> untouched : {{email.untouched}}
-      <div *ngIf="email.invalid">
-        Email is invalid <br/>
+      <br/> untouched : {{email.untouched}} -->
 
+      <div *ngIf="email.touched && email.errors" class="error">
+        <span *ngIf="email.errors.required; else invalidEmail">Email is required</span>
+        <ng-template #invalidEmail>Please enter a valid email.</ng-template>
+        <!-- <span *ngIf="email.errors.emailValidationFailed"></span> -->
+        <br/>
+        {{email.errors | json}}
       </div>
     </div>
     <div class="form-group">
       <label for="pwd">Password:</label>
-      <input type="password" class="form-control" placeholder="Enter password"
+      <input type="{{showPassword?'text':'password'}}" class="form-control" placeholder="Enter password"
        id="password"
        [(ngModel)]="signInData.password"
        name="password"
        #password="ngModel"
+       minlength="8"
        required
        >
 
-
-       <div *ngIf="password.invalid">
-        Password is required
+      {{password.errors | json}}
+       <div *ngIf="password.touched && password.errors" class="error">
+         <span *ngIf="password.errors.required">Password is required</span>
+         <span *ngIf="password.errors.minlength">Minimum of 8 characters is required</span>
+      </div>
+      <div class="row">
+        <label>
+        <input type="checkbox" name="showPassword" [(ngModel)]="showPassword"/> Show Password : {{showPassword}}
+      </label>
       </div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
