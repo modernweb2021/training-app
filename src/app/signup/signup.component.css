@@ -1,0 +1,8 @@
+.input-group-append, .input-group-text {
+  width: 40px;
+  cursor: pointer;
+}
+
+.fas.fa-eye {
+  color: blue;
+}

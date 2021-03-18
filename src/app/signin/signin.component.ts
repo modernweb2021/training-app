@@ -25,4 +25,8 @@ export class SigninComponent implements OnInit {
     // call api
     form.reset();
   }
+
+  clear(form: NgForm) {
+    form.reset();
+  }
 }

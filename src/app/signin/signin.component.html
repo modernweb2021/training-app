@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Signin Form</h1>
-  <form #signInForm="ngForm">
+  <form #signInForm="ngForm" class="col-8">
     <div class="form-group">
       <label for="email">Email address:</label>
       <input type="text" class="form-control" placeholder="Enter email" id="email"
@@ -27,30 +27,28 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="pwd">Password (Combination of minimum 8 characters, Capital Letter, small, letter, number and special characters):</label>
+      <label for="pwd">Password:</label>
       <input type="{{showPassword?'text':'password'}}" class="form-control" placeholder="Enter password"
        id="password"
        [(ngModel)]="signInData.password"
        name="password"
        #password="ngModel"
        required
-       passwordValidation
       >
 
       <!-- {{password.errors | json}} -->
        <div *ngIf="password.touched && password.errors" class="error">
-         <span *ngIf="password.errors.required; else passwordValid">Password is required</span>
-         <ng-template #passwordValid>Please enter a valid 8 character Password with the said combination.</ng-template >
-         <span *ngIf="password.errors.minlength">Minimum of 8 characters is required</span>
+         <span *ngIf="password.errors.required">Password is required</span>
       </div>
-      <div class="row">
+      <div class="">
         <label>
-        <input type="checkbox" name="showPasswordTest" [(ngModel)]="showPassword"/> Show Password : {{showPassword}}
+        <input type="checkbox" name="showPasswordTest" [(ngModel)]="showPassword"/> Show Password
       </label>
       </div>
     </div>
     <button type="submit" class="btn btn-primary" (click)="submitSignInForm(signInForm)"
-    [disabled]="signInForm.form.invalid">Submit</button>
+    [disabled]="signInForm.form.invalid">Submit</button> &nbsp;
+    <button class="btn btn-secondary" (click)="clear(signInForm)">Clear</button>
     Validations: {{signInForm.form.valid}}
   </form>
 </div>

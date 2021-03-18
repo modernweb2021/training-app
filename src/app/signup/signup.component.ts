@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { emailValidation, passwordValidation } from '../helper/utility';
 
 @Component({
   selector: 'app-signup',
@@ -7,7 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
+  showPassword: boolean = false;
   signUpForm: FormGroup = new FormGroup(
     {
       firstName: new FormControl('', [
@@ -18,10 +19,12 @@ export class SignupComponent implements OnInit {
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.minLength(2)
+        Validators.minLength(2),
+        Validators.maxLength(25),
+        nameValidation,
       ]),
-      email: new FormControl('',  Validators.required),
-      password: new FormControl('',  Validators.required)
+      email: new FormControl('',  [Validators.required, emailValidation]),
+      password: new FormControl('', [Validators.required, passwordValidation])
     }
   )
   constructor() { }
@@ -31,17 +34,34 @@ export class SignupComponent implements OnInit {
   submitSignUpform() {
     console.log(this.signUpForm);
   }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+  clear() {
+    this.signUpForm.reset();
+  }
+
+  scroll() {
+    window.scrollTo(0,0);
+  }
 }
 
 function nameValidation(control: FormControl) {
   console.log(control.value);
-  let nameValid = (control.value).toLowerCase() !== 'admin';
-  console.log('nameValid: ', nameValid);
-  if(nameValid) {
-    return null;
-  } else {
-    return {
-      invalidName: true
+  if(control.value) {
+    let nameValid = (control.value).toLowerCase() !== 'admin';
+    console.log('nameValid: ', nameValid);
+    if(nameValid) {
+      return null;
+    } else {
+      return {
+        invalidName: true
+      }
     }
+  } else {
+    return null;
   }
 }
+
+

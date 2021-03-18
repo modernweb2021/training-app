@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { Validator, FormControl, NG_VALIDATORS } from '@angular/forms';
-
+import { emailValidation } from './helper/utility';
 @Directive({
   selector: '[validEmail]',
   providers: [
@@ -15,13 +15,6 @@ export class ValidEmailDirective implements Validator{
 
   constructor() { }
   validate(c: FormControl) {
-    let valid = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/.test(c.value);
-    if(valid) {
-      return null;
-    } else {
-      return {
-        emailValidationFailed: true
-      };
-    }
+    return emailValidation(c);
   }
 }
