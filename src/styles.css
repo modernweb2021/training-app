@@ -3,10 +3,22 @@
   color: red;
 }
 
+.white {
+  color: white;
+}
+
 .content {
   min-height: calc(100vh - 128px);
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+.fl-right {
+  float: right;
+}
+
+.pointer{
+  cursor: pointer;
 }

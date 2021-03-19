@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { emailValidation, passwordValidation } from '../helper/utility';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -8,6 +9,8 @@ import { emailValidation, passwordValidation } from '../helper/utility';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+  error: string;
+  success: string;
   showPassword: boolean = false;
   signUpForm: FormGroup = new FormGroup(
     {
@@ -24,15 +27,34 @@ export class SignupComponent implements OnInit {
         nameValidation,
       ]),
       email: new FormControl('',  [Validators.required, emailValidation]),
-      password: new FormControl('', [Validators.required, passwordValidation])
+      password: new FormControl('', [Validators.required, passwordValidation]),
+      address: new FormGroup({
+        street: new FormControl(''),
+        city: new FormControl(''),
+        state: new FormControl(''),
+        zip: new FormControl('')
+      }),
+      phoneNumber: new FormControl('', [
+        Validators.required
+      ])
     }
   )
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
   }
   submitSignUpform() {
+    this.error = this.success = '';
     console.log(this.signUpForm);
+    let submission = this.userService.signUp(this.signUpForm.value);
+    console.log('submission: ', submission);
+    if(submission.error) {
+      this.error = submission.error;
+    } else if (submission.success) {
+      this.success = submission.success;
+      this.signUpForm.reset();
+    }
+    this.scroll();
   }
 
   togglePassword() {
@@ -48,10 +70,8 @@ export class SignupComponent implements OnInit {
 }
 
 function nameValidation(control: FormControl) {
-  console.log(control.value);
   if(control.value) {
     let nameValid = (control.value).toLowerCase() !== 'admin';
-    console.log('nameValid: ', nameValid);
     if(nameValid) {
       return null;
     } else {

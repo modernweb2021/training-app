@@ -1,1 +1,120 @@
-<p>home works!</p>
+<div class="container">
+  <ng-container *ngIf="userService.loggedUser">
+    <h3>Welcome <i>{{userService.loggedUser?.firstName}} {{userService.loggedUser?.lastName}}</i></h3>
+    <br/>
+    <div>
+      <span>Below is the User details:</span>
+      <span class="fl-right pointer" *ngIf="!userEditing; else saveUser" (click)="editUser()">
+        <i class='fas fa-edit' style='font-size:16px'></i>
+        Edit User details
+      </span>
+      <ng-template #saveUser>
+
+        <span class="fl-right pointer" (click)="updateUser()">
+          <i class='fas fa-save' style='font-size:16px'></i>
+          Save User details
+        </span>
+      </ng-template>
+    </div>
+
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>First Name</td>
+          <td>{{userService.loggedUser.firstName}}</td>
+        </tr>
+        <tr>
+          <td>Last Name</td>
+          <td>{{userService.loggedUser.lastName}}</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>{{userService.loggedUser.email}}</td>
+        </tr>
+        <tr>
+          <td>Phone Number</td>
+          <td>
+            <ng-container *ngIf="!userEditing; else editPhone">
+              {{userService.loggedUser.phoneNumber}}
+            </ng-container>
+            <ng-template #editPhone>
+              <input
+              required
+              type="number" name="phoneNumber"
+              class="form-control"
+              placeholder="Enter phone number"
+              [(ngModel)]="userToEdit.phoneNumber"/>
+            </ng-template>
+          </td>
+        </tr>
+        <tr>
+          <td>Address:</td><td></td>
+        </tr>
+        <tr>
+          <td>City</td>
+          <td>
+            <ng-container *ngIf="!userEditing; else editCity">
+              {{userService.loggedUser.address.city}},<br/>
+            </ng-container>
+            <ng-template #editCity>
+              <input
+              required
+              type="text" name="city"
+              class="form-control"
+              placeholder="Enter City"
+              [(ngModel)]="userToEdit.address.city"/>
+            </ng-template>
+          </td>
+        </tr>
+        <tr>
+          <td>Street</td>
+          <td>
+            <ng-container *ngIf="!userEditing; else editStreet">
+              {{userService.loggedUser.address.street}},<br/>
+            </ng-container>
+            <ng-template #editStreet>
+              <input
+              required
+              type="text" name="street"
+              class="form-control"
+              placeholder="Enter street"
+              [(ngModel)]="userToEdit.address.street"/>
+            </ng-template>
+          </td>
+        </tr>
+        <tr>
+          <td>State</td>
+          <td>
+            <ng-container *ngIf="!userEditing; else editState">
+              {{userService.loggedUser.address.state}},<br/>
+            </ng-container>
+            <ng-template #editState>
+              <input
+              required
+              type="text" name="state"
+              class="form-control"
+              placeholder="Enter state"
+              [(ngModel)]="userToEdit.address.state"/>
+            </ng-template>
+          </td>
+        </tr>
+        <tr>
+          <td>Zip</td>
+          <td>
+            <ng-container *ngIf="!userEditing; else editZip">
+              {{userService.loggedUser.address.zip}},<br/>
+            </ng-container>
+            <ng-template #editZip>
+              <input
+              required
+              type="text" name="zip"
+              class="form-control"
+              placeholder="Enter zip"
+              [(ngModel)]="userToEdit.address.zip"/>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</div>

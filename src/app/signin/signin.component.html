@@ -1,5 +1,9 @@
 <div class="container">
   <h1>Signin Form</h1>
+  <div class="alert alert-danger alert-dismissible" *ngIf="error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Danger!</strong> {{error}}.
+  </div>
   <form #signInForm="ngForm" class="col-8">
     <div class="form-group">
       <label for="email">Email address:</label>

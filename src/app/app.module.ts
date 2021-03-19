@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,6 +29,7 @@ import { PasswordValidationDirective } from './password-validation.directive';
     PasswordValidationDirective,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
