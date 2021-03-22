@@ -1,62 +1,74 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import {User, SignInData} from '../model/signin.model';
-
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+// import
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   users: User[] = this.getUsers();
   loggedUser: User = this.getLoggedUser();
-
-  constructor() {
+  baseURL = 'http://localhost:3000/users';
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   signIn(signInData: SignInData) {
-    let existingUser = this.checkExistingUser(signInData);
-    if (existingUser) {
-      if(signInData.password === existingUser.password) {
-        this.loggedUser = existingUser;
-        this.saveLoggedUser(this.loggedUser);
-        return {
-          success: 'Signin success'
-        }
-      } else {
-        return {
-          error: 'invalid credentials'
-        }
-      }
-    } else {
-      return {
-        error: 'invalid credentials'
-      }
-    }
+
+    return this.http.post(this.baseURL+'/login', signInData);
+    // let existingUser = this.checkExistingUser(signInData);
+    // if (existingUser) {
+    //   if(signInData.password === existingUser.password) {
+    //     this.loggedUser = existingUser;
+    //     this.saveLoggedUser(this.loggedUser);
+    //     return {
+    //       success: 'Signin success'
+    //     }
+    //   } else {
+    //     return {
+    //       error: 'invalid credentials'
+    //     }
+    //   }
+    // } else {
+    //   return {
+    //     error: 'invalid credentials'
+    //   }
+    // }
   }
 
   signUp(newUser: User) {
-    let existingUser = this.checkExistingUser(newUser);
-    if (existingUser) {
-      return {
-        error: 'User already exists'
-      };
-    } else {
-      this.users = this.getUsers();
-      this.users.push(newUser);
-      this.saveUsers();
-      return {
-        success: 'User registration success'
-      };
-    }
+    console.log('posting: ', newUser);
+    return this.http.post(this.baseURL, newUser);
+    // let existingUser = this.checkExistingUser(newUser);
+    // if (existingUser) {
+    //   return {
+    //     error: 'User already exists'
+    //   };
+    // } else {
+    //   this.users = this.getUsers();
+    //   this.users.push(newUser);
+    //   this.saveUsers();
+    //   return {
+    //     success: 'User registration success'
+    //   };
+    // }
   }
 
   updateUser(userToUpdate: User) {
-    let users = this.getUsers();
-    let index = users.findIndex((user) => {
-      return user.email === userToUpdate.email;
+
+    return this.http.put(this.baseURL+'/'+userToUpdate.email, userToUpdate, {
+      headers: {
+        'Authorization' : this.getToken()
+      }
     });
-    users[index] = this.loggedUser = userToUpdate;
-    this.users = users;
-    this.saveLoggedUser(userToUpdate);
-    this.saveUsers();
+    // let users = this.getUsers();
+    // let index = users.findIndex((user) => {
+    //   return user.email === userToUpdate.email;
+    // });
+    // users[index] = this.loggedUser = userToUpdate;
+    // this.users = users;
+    // this.saveLoggedUser(userToUpdate);
+    // this.saveUsers();
   }
 
   saveUsers() {
@@ -75,6 +87,7 @@ export class UserService {
   }
 
   saveLoggedUser(user: User) {
+    this.loggedUser = user;
     localStorage.setItem('loggedUser', JSON.stringify(user));
   }
 
@@ -86,5 +99,23 @@ export class UserService {
   logoutUser() {
     this.loggedUser = null;
     localStorage.removeItem('loggedUser');
+    localStorage.removeItem('token');
+    this.router.navigate(['/signin']);
+  }
+
+  setToken(token: any) {
+    localStorage.setItem('token', token);
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
+  }
+
+  fetchLoggedInUser() {
+    return this.http.get(this.baseURL+'/loggedUser', {
+      headers: {
+        'Authorization' : this.getToken()
+      }
+    })
   }
 }

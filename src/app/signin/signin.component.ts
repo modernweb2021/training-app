@@ -28,14 +28,26 @@ export class SigninComponent implements OnInit {
     console.log(form);
     console.log(this.signInData);
     // call api
-    let signInSubmission = this.userService.signIn(this.signInData);
-    console.log('signInSubmission : ', signInSubmission);
-    if(signInSubmission.error) {
-      this.error = signInSubmission.error;
-    } else if (signInSubmission.success) {
-      // redirect to a home/dasboard page
-      this.router.navigateByUrl('/home');
-    }
+    this.userService.signIn(this.signInData).subscribe(
+      (data) => {
+        console.log(data);
+        this.userService.setToken(data['token']);
+        this.router.navigate(['/home']);
+      }, (error) => {
+        console.log(error);
+        console.log(error.status);
+        if(error && error.status === 401) {
+          this.error = 'Invalid login credentials';
+        }
+      }
+    );
+    // console.log('signInSubmission : ', signInSubmission);
+    // if(signInSubmission.error) {
+    //   this.error = signInSubmission.error;
+    // } else if (signInSubmission.success) {
+    //   // redirect to a home/dasboard page
+    //   this.router.navigateByUrl('/home');
+    // }
 
     //form.reset();
   }

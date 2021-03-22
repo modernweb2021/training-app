@@ -45,16 +45,27 @@ export class SignupComponent implements OnInit {
   }
   submitSignUpform() {
     this.error = this.success = '';
-    console.log(this.signUpForm);
-    let submission = this.userService.signUp(this.signUpForm.value);
-    console.log('submission: ', submission);
-    if(submission.error) {
-      this.error = submission.error;
-    } else if (submission.success) {
-      this.success = submission.success;
-      this.signUpForm.reset();
-    }
-    this.scroll();
+    console.log(this.signUpForm.value);
+    this.userService.signUp(this.signUpForm.value).subscribe(
+      (data) => {
+        console.log(data);
+        this.success = "User registration success";
+        this.signUpForm.reset();
+        this.scroll();
+      }, (error) => {
+        console.log(error);
+        this.error = error.error.data;
+        this.scroll();
+      }
+    );
+    // console.log('submission: ', submission);
+    // if(submission.error) {
+    //   this.error = submission.error;
+    // } else if (submission.success) {
+    //   this.success = submission.success;
+    //   this.signUpForm.reset();
+    // }
+    // this.scroll();
   }
 
   togglePassword() {

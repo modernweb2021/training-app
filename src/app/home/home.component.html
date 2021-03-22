@@ -48,6 +48,22 @@
           </td>
         </tr>
         <tr>
+          <td>Password</td>
+          <td>
+            <ng-container *ngIf="!userEditing; else editPassword">
+              ********
+            </ng-container>
+            <ng-template #editPassword>
+              <input
+              required
+              type="password" name="password"
+              class="form-control"
+              placeholder="Enter password"
+              [(ngModel)]="userToEdit.password"/>
+            </ng-template>
+          </td>
+        </tr>
+        <tr>
           <td>Address:</td><td></td>
         </tr>
         <tr>

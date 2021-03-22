@@ -14,9 +14,15 @@ export class HomeComponent implements OnInit {
   constructor(public userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-    if(!this.userService.getLoggedUser()) {
-      this.router.navigateByUrl('/signin');
-    }
+    this.userService.fetchLoggedInUser().subscribe(
+      (data) => {
+        console.log('logged User data: ', data);
+        this.userService.saveLoggedUser(data['user']);
+      }, (error) => {
+        console.log(error);
+        this.userService.logoutUser();
+      }
+    )
   }
 
   editUser() {
@@ -28,6 +34,13 @@ export class HomeComponent implements OnInit {
 
   updateUser() {
     this.userEditing = false;
-    this.userService.updateUser(this.userToEdit);
+    this.userService.updateUser(this.userToEdit).subscribe(
+      (data) => {
+        console.log('updated user data: ', data);
+        this.userService.saveLoggedUser(data['data']);
+      }, (error) => {
+        console.log(error);
+      }
+    )
   }
 }
