@@ -16,59 +16,16 @@ export class UserService {
   signIn(signInData: SignInData) {
 
     return this.http.post(this.baseURL+'/login', signInData);
-    // let existingUser = this.checkExistingUser(signInData);
-    // if (existingUser) {
-    //   if(signInData.password === existingUser.password) {
-    //     this.loggedUser = existingUser;
-    //     this.saveLoggedUser(this.loggedUser);
-    //     return {
-    //       success: 'Signin success'
-    //     }
-    //   } else {
-    //     return {
-    //       error: 'invalid credentials'
-    //     }
-    //   }
-    // } else {
-    //   return {
-    //     error: 'invalid credentials'
-    //   }
-    // }
   }
 
   signUp(newUser: User) {
     console.log('posting: ', newUser);
     return this.http.post(this.baseURL, newUser);
-    // let existingUser = this.checkExistingUser(newUser);
-    // if (existingUser) {
-    //   return {
-    //     error: 'User already exists'
-    //   };
-    // } else {
-    //   this.users = this.getUsers();
-    //   this.users.push(newUser);
-    //   this.saveUsers();
-    //   return {
-    //     success: 'User registration success'
-    //   };
-    // }
   }
 
   updateUser(userToUpdate: User) {
+    return this.http.put(this.baseURL+'/'+userToUpdate.email, userToUpdate);
 
-    return this.http.put(this.baseURL+'/'+userToUpdate.email, userToUpdate, {
-      headers: {
-        'Authorization' : this.getToken()
-      }
-    });
-    // let users = this.getUsers();
-    // let index = users.findIndex((user) => {
-    //   return user.email === userToUpdate.email;
-    // });
-    // users[index] = this.loggedUser = userToUpdate;
-    // this.users = users;
-    // this.saveLoggedUser(userToUpdate);
-    // this.saveUsers();
   }
 
   saveUsers() {
@@ -112,10 +69,14 @@ export class UserService {
   }
 
   fetchLoggedInUser() {
-    return this.http.get(this.baseURL+'/loggedUser', {
-      headers: {
-        'Authorization' : this.getToken()
-      }
-    })
+    return this.http.get(this.baseURL+'/loggedUser')
+  }
+
+  fetchUserList() {
+    return this.http.get(this.baseURL);
+  }
+
+  deleteUser(email) {
+    return this.http.delete(this.baseURL+'/'+email)
   }
 }

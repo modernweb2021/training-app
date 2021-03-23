@@ -19,6 +19,13 @@
         </li>
       </ng-container>
     </ul>
+
+    <ul class="navbar-nav" *ngIf="userService.loggedUser?.email && userService.loggedUser['userType'] === 'admin'">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="users"
+        routerLinkActive="highlight">Users</a>
+      </li>
+    </ul>
     <ng-container *ngIf="userService.loggedUser?.email">
       <span class="nav-item white">
         Welcome {{userService.loggedUser?.firstName}} {{userService.loggedUser?.lastName}}

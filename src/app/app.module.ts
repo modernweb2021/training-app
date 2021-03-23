@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,7 +15,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { PrivateComponent } from './private/private.component';
 import { ValidEmailDirective } from './valid-email.directive';
 import { PasswordValidationDirective } from './password-validation.directive';
-
+import { UsersComponent } from './users/users.component';
+import {TokenInterceptor} from './token.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { PasswordValidationDirective } from './password-validation.directive';
     PrivateComponent,
     ValidEmailDirective,
     PasswordValidationDirective,
+    UsersComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,11 @@ import { PasswordValidationDirective } from './password-validation.directive';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

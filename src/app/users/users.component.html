@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <h1>Users List page</h1>
+    <div class="alert alert-success alert-dismissible" *ngIf="success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Success!</strong> {{success}}
+    </div>
+    <div class="alert alert-danger alert-dismissible" *ngIf="error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Success!</strong> {{error}}
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Sl No.</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Email</th>
+          <th>PhoneNumber</th>
+          <th>Address</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{i + 1}}</td>
+          <td>{{user.firstName}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.phoneNumber}}</td>
+          <td>{{user.address.street}},{{user.address.city}},{{user.address.state}},{{user.address.zip}}</td>
+          <td>
+            <button
+            *ngIf="user['userType'] !== 'admin'"
+            class="btn btn-danger"
+            (click)="deleteUser(user.email)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

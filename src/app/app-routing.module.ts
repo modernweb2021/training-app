@@ -6,6 +6,7 @@ import { SignupComponent } from './signup/signup.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PrivateComponent } from './private/private.component';
 import { AuthGuard } from './auth.guard';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
@@ -26,8 +27,8 @@ const routes: Routes = [
     component: SignupComponent
   },
   {
-    path: 'private',
-    component: PrivateComponent,
+    path: 'users',
+    component: UsersComponent,
     canActivate: [AuthGuard]
   },
   {
